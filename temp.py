@@ -29,19 +29,20 @@ win = 0
 buy_commission = 0
 sell_commission = 0
 
-for i in range(11, num_index - 2):
+for i in range(36, num_index - 2):
     date = df.iloc[i, 0]
     op_a = df.iloc[i, 1]  # op 는 시작 가격
     tp_a = df.iloc[i, 2]  # tp 는 종가
     hp_a = df.iloc[i, 3]  # hp 는 고가
     lp_a = df.iloc[i, 4]  # lp 는 저가
 
-    ma_10=movingaverage(df,i,10)
-    ma_10_past=movingaverage(df,i-1,10)
+    ma_6=movingaverage(df,i,6)
+    ma_6_past=movingaverage(df,i-1,6)
+    ma_36=movingaverage(df,i,36)
 
-    if hp_a > ma_10 and op_a<ma_10 and ma_10<ma_10_past:
+    if hp_a > ma_6 and op_a<ma_6 and ma_6>ma_6_past and ma_6>ma_36:
 
-        buy_num =(start / ma_10)
+        buy_num =(start / ma_6)
         sell =( df.iloc[(i + 2), 1] * buy_num )
         profit=(sell-start)
         profit_ratio=(sell/start)
