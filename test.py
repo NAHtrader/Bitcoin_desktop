@@ -8,6 +8,14 @@ def multiplyList(myList):
         result = result * x
     return result
 
+def movingaverage(df,n1,n2):
+    movingsum=0
+    moving_average=0
+    for y in range(0,n2):
+        movingsum+=df.iloc[(n1-y-1),2]
+    moving_average=movingsum/n2
+    return moving_average
+
 yr=['2018','2019','2020']
 month=['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
 coins=['Ripple','Bitcoin','BitcoinCash','Ethereum','Litecoin']                          # 코인 추가할거면 하세요!!
@@ -32,13 +40,8 @@ for coin in coins:
 
 # ------------------------------------------------------------------------------------------
                 # 이동 평균 구하기
-                ms_10 = 0
-                ms_10_past = 0
-                for k in range(0, 10):
-                    ms_10 += df.iloc[(i - k-1), 2]
-                    ms_10_past += df.iloc[(i - k - 2), 2]
-                ma_10 = ((ms_10) / 10)
-                ma_10_past = ((ms_10_past) / 10)
+                ma_10 = movingaverage(df, i, 10)
+                ma_10_past = movingaverage(df, i - 1, 10)
 # ------------------------------------------------------------------------------------------
                 # 백테스팅 매매 조건식
                 if df.iloc[i, 3]> ma_10 and df.iloc[i, 1]<ma_10 and ma_10>ma_10_past:

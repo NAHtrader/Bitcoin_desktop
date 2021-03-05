@@ -8,6 +8,13 @@ def multiplyList(myList):
         result = result * x
     return result
 
+def movingaverage(df,n1,n2):
+    movingsum=0
+    moving_average=0
+    for y in range(0,n2):
+        movingsum+=df.iloc[(n1-y-1),2]
+    moving_average=movingsum/n2
+    return moving_average
 
 
 df = pd.read_excel("C:/Users/admin/Desktop/AT/tradedata/Ripple/2020_12.xlsx")
@@ -29,13 +36,8 @@ for i in range(11, num_index - 2):
     hp_a = df.iloc[i, 3]  # hp 는 고가
     lp_a = df.iloc[i, 4]  # lp 는 저가
 
-    ms_10 = 0
-    ms_10_past=0
-    for k in range(0, 10):
-        ms_10 += df.iloc[(i - k-1), 2]
-        ms_10_past+= df.iloc[(i-k-2),2]
-    ma_10 =( (ms_10) / 10)
-    ma_10_past = ((ms_10_past) / 10)
+    ma_10=movingaverage(df,i,10)
+    ma_10_past=movingaverage(df,i-1,10)
 
     if hp_a > ma_10 and op_a<ma_10 and ma_10<ma_10_past:
 
