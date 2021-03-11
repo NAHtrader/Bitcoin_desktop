@@ -2,4 +2,4 @@
 
 run.py = find back-testing data
 
-find.py = back-testing algorithm
+backtest.py = back-testing algorithm
