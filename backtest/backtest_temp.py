@@ -17,7 +17,7 @@ def movingaverage(df,n1,n2):
     return moving_average
 
 
-df = pd.read_excel("C:/Users/admin/Desktop/AT/tradedata/Ripple/2020_12.xlsx")
+df = pd.read_excel("C:/Users/whdtlr/Bitcoin_desktop/Feb_coin/Bitcoin.xlsx")
 
 num_index = len(df.index)
 
@@ -29,6 +29,8 @@ win = 0
 buy_commission = 0
 sell_commission = 0
 
+
+#
 for i in range(36, num_index - 2):
     date = df.iloc[i, 0]
     op_a = df.iloc[i, 1]  # op 는 시작 가격
