@@ -1,5 +1,5 @@
 # Bitcoin_desktop
 
-run.py = find back-testing data
+position -> valuation -> backtest 순으로 directory 사용
 
-backtest.py = back-testing algorithm
+factor -> about_excel 로 backtest 데이터 파일 설정
