@@ -1,16 +1,18 @@
 def donchian_max(df,t,N):   # t 는 시점 (건들지 말 것!)
-  max=df.iloc[(t-N),2]      # N은 기간 (N을 조정할 것!)
-  for i in range(1,N):
-      if df.iloc[(t-N+i),2] >= max:
-          max = df.iloc[(t - N + i), 2]
-  return max
+  box=[]    # N은 기간 (N을 조정할 것!)
+  max_value=0
+  for i in range(0,N):
+    box.append(df.iloc[(t-N+i),2]) # 데이터 프레임 카운팅 주의
+  max_value=max(box)
+  return max_value
 
 def donchian_min(df,t,N):
-  min=df.iloc[(t-N),3]
-  for i in range(1,N):
-      if df.iloc[(t-N+i),3] <= min:
-        min = df.iloc[(t-N+i),3]
-  return min
+  box=[]
+  min_value=0
+  for i in range(0,N):
+      box.append(df.iloc[(t-N+i),3]) # 데이터 프레임 카운팅 주의
+  min_value=min(box)
+  return min_value
 
 
 max_box=[]
@@ -23,7 +25,7 @@ max_box.append(local_max)
 min_box.append(local_min)
 
 df["donchian Max"]=max_box
-df["donchina min"]=min_box
+df["donchian min"]=min_box
 
 
 ### 현재 기간 수정 안되있음 !!!!!

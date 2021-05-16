@@ -37,7 +37,10 @@ for coin in coin_names:
 # ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ반복문을 통해 추가하기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 # 카운팅 쉽게 하기 위해 앞에 400개 잘라내버리기
     for i in range(400, num_index):
-
+        if i==400:
+            # 직접 1회 계산
+        else:
+            # 점화식 활용!
 
     df = df.drop(df.index[0:400])
 

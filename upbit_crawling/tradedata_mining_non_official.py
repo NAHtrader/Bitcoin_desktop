@@ -1,6 +1,5 @@
 import requests
 import pandas as pd
-from fake_useragent import UserAgent
 from time import sleep
 
 def call_coin():
@@ -19,35 +18,35 @@ def call_coin():
         databox.append(empty)
     return databox
 
-days = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28']
-hours = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24']
+# months=['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
 
-coin_names=[['KRW-PCI', 'PayCoin'], ['KRW-STRAX', 'Stratis'], ['KRW-AQT', 'Alpha Quark Token'], ['KRW-BCHA', 'Bitcoin Cash ABC'], ['KRW-GLM', 'Golem'], ['KRW-QTCON', 'Quiztok'], ['KRW-SSX', 'SOMESING'], ['KRW-META', 'Metadium'], ['KRW-OBSR', 'Observer'], ['KRW-FCT2', 'FirmaChain'], ['KRW-LBC', 'LBRY Credits'], ['KRW-CBK', 'Cobak Token'], ['KRW-SAND', 'The Sandbox'], ['KRW-HUM', 'Humanscape'], ['KRW-DOGE', 'Dogecoin']]
-cycle=0
+
+coin_names=call_coin()
+# cycle=0
 for coin in coin_names:
     box = {}
-    for day in days:
-        ua = UserAgent()
-        headers = {'User-Agent': ua.random}
-        for hour in hours:
-            r = requests.get("https://crix-api-endpoint.upbit.com/v1/crix/candles/minutes/1?code=CRIX.UPBIT."+coin[0]+"&count=60&to=2021-01-"+day+"%20"+hour+":00:00", headers=headers)
-            tradedata = r.json()
 
-            for trade in reversed(tradedata):
-                time = trade['candleDateTime']
-                timedata = time[0:10] + " " + time[11:16]
-                op = trade['openingPrice']  # op 는 시작 가격
-                tp = trade['tradePrice']  # tp 는 종가
-                lp = trade['lowPrice']  # lp 는 저가
-                hp = trade['highPrice']  # hp 는 고가
-                box[timedata] = [op,hp,lp,tp]
+    r = requests.get("https://crix-api-endpoint.upbit.com/v1/crix/candles/days?code=CRIX.UPBIT."+coin[0]+"&count=90&to=2021-03-31%2009:00:00")
+    tradedata = r.json()
+
+    for trade in reversed(tradedata):
+        time = trade['candleDateTime']
+        timedata = time[0:10]
+        op = trade['openingPrice']  # op 는 시작 가격
+        tp = trade['tradePrice']  # tp 는 종가
+        lp = trade['lowPrice']  # lp 는 저가
+        hp = trade['highPrice']  # hp 는 고가
+        volume=trade['candleAccTradeVolume']
+        price=trade['candleAccTradePrice']
+        tap=price/volume
+        box[timedata] = [op,hp,lp,tp,volume,price,tap]
 
     tradedata = pd.DataFrame(box)
-    tradedata.rename(index={0: "Open Price", 1: "High Price", 2: "Low Price", 3: 'Close Price'}, inplace=True)
+    tradedata.rename(index={0: "Open Price", 1: "High Price", 2: "Low Price", 3: 'Close Price',4:'Trade Volume',5:'Total trade-price',6:'Average Trade price'}, inplace=True)
     transposed_tradedata = tradedata.transpose()
-    transposed_tradedata.to_excel(excel_writer='C:/Users/whdtlr/Bitcoin_desktop/Jan_coin/'+coin[1]+'.xlsx')
+    transposed_tradedata.to_excel(excel_writer='C:/Users/whdtlr/Bitcoin_desktop/2021/'+coin[1]+'.xlsx')
     print(coin[1])
-    cycle+=1
-    if cycle%5==0:
-        sleep(35)
-        print("-------waiting-------")
+    # cycle+=1
+    # if cycle%5==0:
+    #     sleep(60)
+    #     print("-------waiting-------")
